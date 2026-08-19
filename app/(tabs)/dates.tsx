@@ -39,9 +39,9 @@ export default function DatesScreen() {
     contentContainerStyle={[styles.list, { backgroundColor: colors.background }]}
     ListHeaderComponent={<>
       <Text style={styles.title}>Attendance dates</Text><Text style={styles.subtitle}>ITB — {settings.subsection} · 12 Aug to 31 Dec 2026</Text>
-      <View style={styles.monthNavigation}><Pressable disabled={monthIndex === 7} onPress={() => setMonthIndex((value) => value - 1)} style={({ pressed }) => [styles.monthButton, monthIndex === 7 && styles.disabled, pressed && styles.pressed]}><MaterialIcons name="chevron-left" color="#2446A8" size={22} /></Pressable><Text style={styles.monthTitle}>{MONTHS[monthIndex - 7]} 2026</Text><Pressable disabled={monthIndex === 11} onPress={() => setMonthIndex((value) => value + 1)} style={({ pressed }) => [styles.monthButton, monthIndex === 11 && styles.disabled, pressed && styles.pressed]}><MaterialIcons name="chevron-right" color="#2446A8" size={22} /></Pressable></View>
+      <View style={styles.monthNavigation}><Pressable disabled={monthIndex === 7} onPress={() => setMonthIndex((value) => value - 1)} style={({ pressed }) => [styles.monthButton, monthIndex === 7 && styles.disabled, pressed && styles.pressed]}><MaterialIcons name="chevron-left" color="#0A7EA4" size={22} /></Pressable><Text style={styles.monthTitle}>{MONTHS[monthIndex - 7]} 2026</Text><Pressable disabled={monthIndex === 11} onPress={() => setMonthIndex((value) => value + 1)} style={({ pressed }) => [styles.monthButton, monthIndex === 11 && styles.disabled, pressed && styles.pressed]}><MaterialIcons name="chevron-right" color="#0A7EA4" size={22} /></Pressable></View>
       <View style={styles.calendarCard}><View style={styles.weekHeader}>{WEEKDAYS.map((weekday) => <Text key={weekday} style={[styles.weekday, weekday === "Sun" || weekday === "Sat" ? styles.weekendWeekday : null]}>{weekday}</Text>)}</View><View style={styles.grid}>{cells.map((date, index) => { if (!date) return <View key={`blank-${index}`} style={styles.dayCell} />; const inRange = isWithinAttendanceRange(date); const weekend = isWeekend(date); const selected = dateKey(date) === selectedKey; return <Pressable key={dateKey(date)} disabled={!inRange} onPress={() => setSelectedKey(dateKey(date))} style={({ pressed }) => [styles.dayCell, selected && styles.selectedDay, weekend && inRange && styles.holidayDay, !inRange && styles.outOfRange, pressed && styles.pressed]}><Text style={[styles.dayNumber, selected && styles.selectedDayText, weekend && inRange && !selected && styles.holidayText, !inRange && styles.outOfRangeText]}>{date.getDate()}</Text>{weekend && inRange ? <View style={[styles.holidayDot, selected && styles.selectedHolidayDot]} /> : null}</Pressable>; })}</View></View>
-      <View style={[styles.selectedCard, isHoliday && styles.selectedHolidayCard]}><View style={styles.selectedIcon}><MaterialIcons name={isHoliday ? "beach-access" : "event-note"} size={21} color={isHoliday ? "#A65D00" : "#2446A8"} /></View><View style={styles.selectedBody}><Text style={styles.selectedLabel}>{isHoliday ? "WEEKEND HOLIDAY" : "SELECTED DATE"}</Text><Text style={styles.selectedTitle}>{displayDate(selectedDate)}</Text><Text style={styles.selectedDetail}>{isHoliday ? "Saturday and Sunday are marked as holidays. No lectures or attendance are scheduled." : isFuture ? "Future date — timetable is visible; attendance stays unmarked until class." : "Mark each scheduled lecture separately for this date."}</Text></View></View>
+      <View style={[styles.selectedCard, isHoliday && styles.selectedHolidayCard]}><View style={styles.selectedIcon}><MaterialIcons name={isHoliday ? "beach-access" : "event-note"} size={21} color={isHoliday ? "#A65D00" : "#0A7EA4"} /></View><View style={styles.selectedBody}><Text style={styles.selectedLabel}>{isHoliday ? "WEEKEND HOLIDAY" : "SELECTED DATE"}</Text><Text style={styles.selectedTitle}>{displayDate(selectedDate)}</Text><Text style={styles.selectedDetail}>{isHoliday ? "Saturday and Sunday are marked as holidays. No lectures or attendance are scheduled." : isFuture ? "Future date — timetable is visible; attendance stays unmarked until class." : "Mark each scheduled lecture separately for this date."}</Text></View></View>
       {!isHoliday && <Text style={styles.scheduleTitle}>{lectures.length ? "Scheduled lectures" : "No lecture scheduled"}</Text>}
     </>}
     renderItem={({ item }) => <DateLectureCard lecture={item} status={getLectureStatus(item, selectedKey)} disabled={isFuture} onStatus={(status) => markLecture(item, status, selectedKey)} />}
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   grid: { flexDirection: "row", flexWrap: "wrap" },
   dayCell: { alignItems: "center", borderRadius: 10, height: 40, justifyContent: "center", marginVertical: 1, width: "14.2857%" },
   dayNumber: { color: "#10213F", fontSize: 12, fontWeight: "700" },
-  selectedDay: { backgroundColor: "#2446A8" },
+  selectedDay: { backgroundColor: "#0A7EA4" },
   selectedDayText: { color: "#FFFFFF" },
   holidayDay: { backgroundColor: "#FFF3E0" },
   holidayText: { color: "#A65D00" },
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   selectedHolidayCard: { backgroundColor: "#FFF3E0" },
   selectedIcon: { alignItems: "center", backgroundColor: "#FFFFFF", borderRadius: 12, height: 40, justifyContent: "center", width: 40 },
   selectedBody: { flex: 1 },
-  selectedLabel: { color: "#2446A8", fontSize: 9, fontWeight: "800", letterSpacing: 0.8 },
+  selectedLabel: { color: "#0A7EA4", fontSize: 9, fontWeight: "800", letterSpacing: 0.8 },
   selectedTitle: { color: "#10213F", fontSize: 14, fontWeight: "800", marginTop: 2 },
   selectedDetail: { color: "#52617A", fontSize: 11, lineHeight: 16, marginTop: 3 },
   scheduleTitle: { color: "#10213F", fontSize: 17, fontWeight: "800", marginBottom: 11, marginTop: 21 },

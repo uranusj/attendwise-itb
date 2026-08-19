@@ -37,3 +37,7 @@
 - [x] Validate the neutral palette and visible navigation icons in the Android bundle.
 - [x] Remove all hardcoded blue-tinted backgrounds and light-mode surfaces from student and administrator screens.
 - [x] Verify the rendered white/neutral Light Mode and revalidate the Android bundle.
+- [x] Remove Dark Mode controls and all saved theme-switching behavior.
+- [x] Restore the original starter neutral light palette and teal accent colors.
+- [x] Replace remaining blue dashboard, button, and navigation theme surfaces with the restored palette.
+- [x] Verify the restored single-light interface and Android bundle.
