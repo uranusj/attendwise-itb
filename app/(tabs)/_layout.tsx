@@ -22,6 +22,7 @@ export default function TabLayout() {
       <Tabs.Screen name="timetable" options={{ title: "Timetable", tabBarIcon: ({ color }) => <MaterialIcons color={color} name="calendar-month" size={25} /> }} />
       <Tabs.Screen name="attendance" options={{ title: "Attendance", tabBarIcon: ({ color }) => <MaterialIcons color={color} name="insights" size={24} /> }} />
       <Tabs.Screen name="settings" options={{ title: "Settings", tabBarIcon: ({ color }) => <MaterialIcons color={color} name="tune" size={24} /> }} />
+      <Tabs.Screen name="admin" options={{ href: null }} />
     </Tabs>
   );
 }

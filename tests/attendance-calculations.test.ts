@@ -36,4 +36,8 @@ describe("attendance calculations", () => {
     expect(recommendationFor(subject(21, 5)).kind).toBe("SAFE");
     expect(recommendationFor(subject(17, 5)).kind).toBe("MUST");
   });
+
+  it("withholds an attendance recommendation until a student enters real records", () => {
+    expect(recommendationFor(subject(0, 0)).kind).toBe("PENDING");
+  });
 });

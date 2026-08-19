@@ -6,7 +6,7 @@ import { EmptyState, GroupChip } from "@/components/attendwise-ui";
 import { ScreenContainer } from "@/components/screen-container";
 import { useAttendWise } from "@/lib/attendwise-store";
 import type { AttendanceStatus, Lecture } from "@/lib/attendwise-types";
-import { WEEKDAYS } from "@/lib/sample-timetable";
+import { TIMETABLE_EFFECTIVE_FROM, TIMETABLE_SOURCE_LABEL, WEEKDAYS } from "@/lib/sample-timetable";
 
 function ScheduleRow({ lecture, status, onStatus }: { lecture: Lecture; status: AttendanceStatus; onStatus: (next: AttendanceStatus) => void }) {
   return (
@@ -32,7 +32,7 @@ export default function TimetableScreen() {
         ListHeaderComponent={<><Text style={styles.title}>{mode === "TIMETABLE" ? "Timetable" : "Calendar"}</Text><Text style={styles.subtitle}>ITB — {settings.subsection} · Common classes are always included</Text><View style={styles.modeToggle}><Pressable onPress={() => setMode("TIMETABLE")} style={({ pressed }) => [styles.modeButton, mode === "TIMETABLE" && styles.modeButtonSelected, pressed && styles.pressed]}><Text style={[styles.modeText, mode === "TIMETABLE" && styles.modeTextSelected]}>Weekly schedule</Text></Pressable><Pressable onPress={() => setMode("CALENDAR")} style={({ pressed }) => [styles.modeButton, mode === "CALENDAR" && styles.modeButtonSelected, pressed && styles.pressed]}><Text style={[styles.modeText, mode === "CALENDAR" && styles.modeTextSelected]}>Occurrences</Text></Pressable></View>{mode === "TIMETABLE" ? <View style={styles.weekdays}>{WEEKDAYS.map((weekday) => <Pressable key={weekday} onPress={() => setDay(weekday)} style={({ pressed }) => [styles.dayButton, day === weekday && styles.dayButtonSelected, pressed && styles.pressed]}><Text style={[styles.dayText, day === weekday && styles.dayTextSelected]}>{weekday.slice(0, 3)}</Text></Pressable>)}</View> : <View style={styles.calendarNote}><MaterialIcons name="info-outline" size={18} color="#2446A8" /><Text style={styles.calendarNoteText}>Change one occurrence without affecting the recurring weekly timetable.</Text></View>}<Text style={styles.dayHeading}>{mode === "TIMETABLE" ? day : "This week’s lecture occurrences"}</Text></>}
         renderItem={({ item }) => <ScheduleRow lecture={item} status={statuses[item.id] ?? "NOT_MARKED"} onStatus={(status) => markLecture(item, status)} />}
         ListEmptyComponent={<EmptyState icon="event-busy" title="No sessions for this view" detail="The selected ITB subsection has no matching lecture occurrences." />}
-        ListFooterComponent={<View style={styles.sourceCard}><MaterialIcons name="cloud-done" size={21} color="#2446A8" /><View style={styles.sourceBody}><Text style={styles.sourceTitle}>Timetable source</Text><Text style={styles.sourceText}>Local sample prepared for the ITB1 / ITB2 table structure. Refresh requires review before publishing.</Text></View></View>}
+        ListFooterComponent={<View style={styles.sourceCard}><MaterialIcons name="verified" size={21} color="#2446A8" /><View style={styles.sourceBody}><Text style={styles.sourceTitle}>Published timetable</Text><Text style={styles.sourceText}>{TIMETABLE_SOURCE_LABEL} · effective {TIMETABLE_EFFECTIVE_FROM}. Any new WhatsApp-shared update requires administrator review before publication.</Text></View></View>}
       />
     </ScreenContainer>
   );

@@ -12,3 +12,10 @@
 - [x] Generate and apply custom AttendWise ITB app branding.
 - [x] Validate core flows with automated tests and Android-compatible checks.
 - [x] Save the completed project checkpoint and provide release guidance.
+- [x] Replace all placeholder attendance values with an initially unmarked state and begin attendance history from 10 August.
+- [x] Obtain or import the verified ITB B1/B2 timetable covering all classes through 15:30.
+- [x] Extend the student timetable and daily schedule data model to support late-afternoon lecture slots.
+- [x] Add an administrator workspace for importing, reviewing, editing, and publishing timetable changes from WhatsApp-shared files.
+- [x] Add clear source, validation, and publication status to prevent unverified timetable data from appearing as official.
+- [x] Keep every student’s name, subsection, attendance history, and reminders isolated to their own device without combining records.
+- [x] Test and checkpoint the corrected timetable and administrator workflows.

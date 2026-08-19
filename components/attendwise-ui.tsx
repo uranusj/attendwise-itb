@@ -13,6 +13,7 @@ const RECOMMENDATION_STYLE: Record<Recommendation["kind"], { background: string;
   SAFE: { background: "#E2F5EC", ink: "#18754E", icon: "check-circle" },
   RISK: { background: "#FFF0D4", ink: "#A65D00", icon: "error-outline" },
   MUST: { background: "#FCE5E8", ink: "#A5293A", icon: "priority-high" },
+  PENDING: { background: "#EEF1F6", ink: "#63718A", icon: "pending-actions" },
 };
 
 export function GroupChip({ group }: { group: LectureGroup }) {

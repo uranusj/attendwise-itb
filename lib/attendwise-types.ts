@@ -24,6 +24,7 @@ export type SubjectAttendance = {
   absent: number;
 };
 
+/** Stored only in the current app installation; never aggregated with another student. */
 export type StudentSettings = {
   name: string;
   subsection: Subsection;
@@ -31,8 +32,15 @@ export type StudentSettings = {
   setupComplete: boolean;
 };
 
+export type TimetableImport = {
+  fileName: string;
+  mimeType: string;
+  importedAt: string;
+  status: "REVIEW_REQUIRED";
+};
+
 export type Recommendation = {
-  kind: "SAFE" | "RISK" | "MUST";
+  kind: "SAFE" | "RISK" | "MUST" | "PENDING";
   label: string;
   detail: string;
   ifAttended: number;

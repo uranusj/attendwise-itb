@@ -1,6 +1,7 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useState } from "react";
+import { router } from "expo-router";
 
 import { ScreenContainer } from "@/components/screen-container";
 import { useAttendWise } from "@/lib/attendwise-store";
@@ -41,6 +42,8 @@ export default function SettingsScreen() {
         <View style={styles.card}><View style={styles.settingRow}><View style={styles.settingIcon}><MaterialIcons name="notifications-active" size={20} color="#2446A8" /></View><View style={styles.settingBody}><Text style={styles.settingTitle}>Remind before lectures</Text><Text style={styles.cardDetail}>Notification scheduling is configured on your device.</Text></View></View><View style={styles.reminderGrid}>{reminderChoices.map((minutes) => <Pressable key={minutes} onPress={() => updateReminderMinutes(minutes)} style={({ pressed }) => [styles.reminderChoice, settings.reminderMinutes === minutes && styles.reminderChoiceSelected, pressed && styles.pressed]}><Text style={[styles.reminderText, settings.reminderMinutes === minutes && styles.reminderTextSelected]}>{minutes} min</Text></Pressable>)}</View><Pressable onPress={handleScheduleReminders} style={({ pressed }) => [styles.scheduleButton, pressed && styles.pressed]}><MaterialIcons name="notifications" size={18} color="#FFFFFF" /><Text style={styles.scheduleButtonText}>Schedule next 14 days</Text></Pressable><Text style={styles.reminderStatus}>{reminderStatus}</Text><View style={styles.localNotice}><MaterialIcons name="info-outline" size={16} color="#6D7A94" /><Text style={styles.localNoticeText}>Enable notification permission when prompted after scheduling. Remote FCM delivery is not configured.</Text></View></View>
         <Text style={styles.heading}>Timetable management</Text>
         <View style={styles.card}><View style={styles.settingRow}><View style={styles.settingIcon}><MaterialIcons name="table-chart" size={20} color="#2446A8" /></View><View style={styles.settingBody}><Text style={styles.settingTitle}>Public source registered</Text><Text style={styles.cardDetail}>{SOURCE_URL}</Text></View></View><Pressable onPress={() => setShowImportPreview((visible) => !visible)} style={({ pressed }) => [styles.outlineButton, pressed && styles.pressed]}><MaterialIcons name="refresh" size={18} color="#2446A8" /><Text style={styles.outlineButtonText}>{showImportPreview ? "Close import preview" : "Refresh timetable · Preview"}</Text></Pressable>{showImportPreview ? <View style={styles.preview}><Text style={styles.previewTitle}>Safe import preview</Text><Text style={styles.previewText}>Detected collection model: individual ITB1 and ITB2 source tables. Publishing remains disabled until an administrator reviews subjects, rooms, teachers, and subgroup assignments.</Text><View style={styles.previewRow}><Text style={styles.previewLabel}>Source status</Text><Text style={styles.previewValue}>Review required</Text></View><View style={styles.previewRow}><Text style={styles.previewLabel}>Current student data</Text><Text style={styles.previewValue}>Unchanged</Text></View></View> : null}</View>
+        <Text style={styles.heading}>Administrator access</Text>
+        <Pressable onPress={() => router.push("/(tabs)/admin")} style={({ pressed }) => [styles.adminAccess, pressed && styles.pressed]}><View style={styles.adminAccessIcon}><MaterialIcons name="admin-panel-settings" size={20} color="#FFFFFF" /></View><View style={styles.adminAccessBody}><Text style={styles.adminAccessTitle}>Open timetable administrator</Text><Text style={styles.adminAccessText}>Review WhatsApp-shared files, correct draft sessions, and publish only after validation.</Text></View><MaterialIcons name="chevron-right" size={22} color="#C8D4F7" /></Pressable>
         <Pressable onPress={() => Alert.alert("Restart local setup?", "This clears locally stored attendance and returns to subsection selection.", [{ text: "Cancel", style: "cancel" }, { text: "Restart", style: "destructive", onPress: resetSetup }])} style={({ pressed }) => [styles.resetButton, pressed && styles.pressed]}><MaterialIcons name="restart-alt" size={18} color="#A5293A" /><Text style={styles.resetText}>Restart local setup</Text></Pressable>
       </ScrollView>
     </ScreenContainer>
@@ -89,5 +92,10 @@ const styles = StyleSheet.create({
   previewValue: { color: "#2446A8", fontSize: 10, fontWeight: "800" },
   resetButton: { alignItems: "center", flexDirection: "row", gap: 7, justifyContent: "center", marginTop: 25, paddingVertical: 12 },
   resetText: { color: "#A5293A", fontSize: 12, fontWeight: "800" },
+  adminAccess: { alignItems: "center", backgroundColor: "#10213F", borderRadius: 19, flexDirection: "row", padding: 14 },
+  adminAccessIcon: { alignItems: "center", backgroundColor: "#2446A8", borderRadius: 11, height: 39, justifyContent: "center", width: 39 },
+  adminAccessBody: { flex: 1, marginLeft: 10 },
+  adminAccessTitle: { color: "#FFFFFF", fontSize: 13, fontWeight: "800" },
+  adminAccessText: { color: "#C8D4F7", fontSize: 10, lineHeight: 15, marginTop: 3 },
   pressed: { opacity: 0.68 },
 });

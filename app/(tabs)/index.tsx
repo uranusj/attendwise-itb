@@ -6,6 +6,7 @@ import { GroupChip, SectionHeading, EmptyState } from "@/components/attendwise-u
 import { attendancePercentage, recommendationFor } from "@/lib/attendance-calculations";
 import { useAttendWise } from "@/lib/attendwise-store";
 import type { Lecture, Subsection } from "@/lib/attendwise-types";
+import { TIMETABLE_EFFECTIVE_FROM } from "@/lib/sample-timetable";
 import { ScreenContainer } from "@/components/screen-container";
 
 const dayForDate = (date: Date) => date.toLocaleDateString("en-US", { weekday: "long" });
@@ -69,6 +70,7 @@ export default function HomeScreen() {
   }, [subjects]);
   const attention = useMemo(() => [...subjects].sort((a, b) => attendancePercentage(a) - attendancePercentage(b))[0], [subjects]);
   const nextLecture = todayLectures[0] ?? visibleLectures()[0];
+  const hasAttendanceRecords = subjects.some((subject) => subject.present + subject.absent > 0);
 
   if (loading) return <ScreenContainer><View style={styles.loading}><ActivityIndicator color="#2446A8" size="large" /></View></ScreenContainer>;
   if (!settings.setupComplete) return <SetupScreen />;
@@ -81,13 +83,13 @@ export default function HomeScreen() {
         contentContainerStyle={styles.listContent}
         ListHeaderComponent={<>
           <View style={styles.heroRow}><View><Text style={styles.greeting}>Good morning, {settings.name}</Text><Text style={styles.cohort}>GNDEC  ·  ITB — {settings.subsection}</Text></View><View style={styles.avatar}><Text style={styles.avatarText}>{settings.name.slice(0, 1).toUpperCase()}</Text></View></View>
-          <View style={styles.attendanceHero}><View><Text style={styles.overallLabel}>OVERALL ATTENDANCE</Text><Text style={styles.overallValue}>{overall.toFixed(1)}<Text style={styles.percentMark}>%</Text></Text><Text style={styles.targetText}>Target: 75%</Text></View><View style={styles.safePill}><MaterialIcons name={overall >= 75 ? "verified" : "warning-amber"} size={16} color={overall >= 75 ? "#18754E" : "#A65D00"} /><Text style={[styles.safePillText, { color: overall >= 75 ? "#18754E" : "#A65D00" }]}>{overall >= 75 ? "On track" : "Needs focus"}</Text></View></View>
+          <View style={styles.attendanceHero}><View><Text style={styles.overallLabel}>OVERALL ATTENDANCE</Text><Text style={styles.overallValue}>{hasAttendanceRecords ? <>{overall.toFixed(1)}<Text style={styles.percentMark}>%</Text></> : "—"}</Text><Text style={styles.targetText}>{hasAttendanceRecords ? "Target: 75%" : "Mark real attendance to begin"}</Text></View><View style={styles.safePill}><MaterialIcons name={hasAttendanceRecords ? (overall >= 75 ? "verified" : "warning-amber") : "pending-actions"} size={16} color={hasAttendanceRecords ? (overall >= 75 ? "#18754E" : "#A65D00") : "#6D7A94"} /><Text style={[styles.safePillText, { color: hasAttendanceRecords ? (overall >= 75 ? "#18754E" : "#A65D00") : "#6D7A94" }]}>{hasAttendanceRecords ? (overall >= 75 ? "On track" : "Needs focus") : "No records"}</Text></View></View>
           {nextLecture ? <View style={styles.nextCard}><View style={styles.nextIcon}><MaterialIcons name="schedule" color="#2446A8" size={23} /></View><View style={styles.nextBody}><Text style={styles.nextLabel}>NEXT LECTURE</Text><Text style={styles.nextTitle}>{nextLecture.subject}</Text><Text style={styles.nextDetail}>{nextLecture.startTime}–{nextLecture.endTime}  ·  {nextLecture.classroom}</Text></View><GroupChip group={nextLecture.group} /></View> : null}
           <SectionHeading title={`Today · ${today}`} />
         </>}
         renderItem={({ item }) => <LectureCard lecture={item} />}
         ListEmptyComponent={<EmptyState icon="event-available" title="No scheduled lectures" detail="Your filtered ITB timetable has no lecture today. Review the week in Timetable." />}
-        ListFooterComponent={<View style={styles.attentionWrap}><SectionHeading title="Attention required" /><View style={styles.attentionCard}><View style={styles.attentionIcon}><MaterialIcons name="trending-up" size={20} color="#A5293A" /></View><View style={styles.attentionBody}><Text style={styles.attentionTitle}>{attention.subject}</Text><Text style={styles.attentionDetail}>{recommendationFor(attention).detail}</Text></View><Text style={styles.attentionPercent}>{attendancePercentage(attention).toFixed(1)}%</Text></View><Text style={styles.sampleNotice}>Sample timetable data • not a live GNDEC synchronization</Text></View>}
+        ListFooterComponent={<View style={styles.attentionWrap}><SectionHeading title={hasAttendanceRecords ? "Attention required" : "Attendance status"} />{hasAttendanceRecords ? <View style={styles.attentionCard}><View style={styles.attentionIcon}><MaterialIcons name="trending-up" size={20} color="#A5293A" /></View><View style={styles.attentionBody}><Text style={styles.attentionTitle}>{attention.subject}</Text><Text style={styles.attentionDetail}>{recommendationFor(attention).detail}</Text></View><Text style={styles.attentionPercent}>{attendancePercentage(attention).toFixed(1)}%</Text></View> : <View style={styles.attentionCard}><View style={styles.attentionIcon}><MaterialIcons name="fact-check" size={20} color="#2446A8" /></View><View style={styles.attentionBody}><Text style={styles.attentionTitle}>No attendance history yet</Text><Text style={styles.attentionDetail}>Classes are scheduled from 10 August. Record actual Present or Absent outcomes to start your calculation.</Text></View></View>}<Text style={styles.sampleNotice}>Verified GNDEC ITB timetable · effective {TIMETABLE_EFFECTIVE_FROM}</Text></View>}
       />
     </ScreenContainer>
   );

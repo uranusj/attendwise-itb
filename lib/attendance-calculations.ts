@@ -30,6 +30,17 @@ export function lecturesToRecover(subject: SubjectAttendance) {
 }
 
 export function recommendationFor(subject: SubjectAttendance): Recommendation {
+  if (markedTotal(subject) === 0) {
+    return {
+      kind: "PENDING",
+      label: "NO RECORDS YET",
+      detail: "Mark actual lecture outcomes to calculate your attendance and 75% recommendation.",
+      ifAttended: 100,
+      ifMissed: 0,
+      canMiss: 0,
+      requiredToRecover: 0,
+    };
+  }
   const ifAttended = projectedPercentage(subject, true);
   const ifMissed = projectedPercentage(subject, false);
   const canMiss = canMissMore(subject);
