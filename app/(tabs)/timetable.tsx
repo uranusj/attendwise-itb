@@ -41,10 +41,10 @@ export default function TimetableScreen() {
 }
 
 const styles = StyleSheet.create({
-  list: { backgroundColor: "#F7F8FC", padding: 18, paddingBottom: 38 },
+  list: { backgroundColor: "#FFFFFF", padding: 18, paddingBottom: 38 },
   title: { color: "#10213F", fontSize: 28, fontWeight: "800", letterSpacing: -0.8, marginTop: 4 },
   subtitle: { color: "#6D7A94", fontSize: 13, marginTop: 5 },
-  modeToggle: { backgroundColor: "#EAF0F8", borderRadius: 13, flexDirection: "row", marginTop: 18, padding: 4 },
+  modeToggle: { backgroundColor: "#F3F4F6", borderRadius: 13, flexDirection: "row", marginTop: 18, padding: 4 },
   modeButton: { alignItems: "center", borderRadius: 10, flex: 1, paddingVertical: 9 },
   modeButtonSelected: { backgroundColor: "#FFFFFF" },
   modeText: { color: "#74819A", fontSize: 12, fontWeight: "800" },
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   dayButtonSelected: { backgroundColor: "#2446A8", borderColor: "#2446A8" },
   dayText: { color: "#61708A", fontSize: 11, fontWeight: "800" },
   dayTextSelected: { color: "#FFFFFF" },
-  calendarNote: { alignItems: "center", backgroundColor: "#E8EDFF", borderRadius: 14, flexDirection: "row", gap: 8, marginBottom: 18, marginTop: 16, padding: 12 },
+  calendarNote: { alignItems: "center", backgroundColor: "#F9FAFB", borderRadius: 14, flexDirection: "row", gap: 8, marginBottom: 18, marginTop: 16, padding: 12 },
   calendarNoteText: { color: "#2446A8", flex: 1, fontSize: 12, fontWeight: "600", lineHeight: 17 },
   dayHeading: { color: "#10213F", fontSize: 17, fontWeight: "800", marginBottom: 12 },
   sessionCard: { backgroundColor: "#FFFFFF", borderColor: "#E3E8F3", borderRadius: 19, borderWidth: 1, flexDirection: "row", marginBottom: 10, padding: 14 },
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   location: { color: "#52617A", flex: 1, fontSize: 11 },
   calendarHint: { color: "#2446A8", fontSize: 10, fontWeight: "700", marginTop: 11 },
   pressed: { opacity: 0.7 },
-  sourceCard: { alignItems: "flex-start", backgroundColor: "#F0F4FF", borderRadius: 17, flexDirection: "row", gap: 10, marginTop: 14, padding: 14 },
+  sourceCard: { alignItems: "flex-start", backgroundColor: "#F9FAFB", borderRadius: 17, flexDirection: "row", gap: 10, marginTop: 14, padding: 14 },
   sourceBody: { flex: 1 },
   sourceTitle: { color: "#2446A8", fontSize: 13, fontWeight: "800" },
   sourceText: { color: "#52617A", fontSize: 11, lineHeight: 16, marginTop: 3 },

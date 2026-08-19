@@ -35,3 +35,5 @@
 - [x] Replace the blue-tinted light-mode background with a neutral light palette.
 - [x] Replace the unstable bottom navigation icon component with direct Android-compatible icons.
 - [x] Validate the neutral palette and visible navigation icons in the Android bundle.
+- [x] Remove all hardcoded blue-tinted backgrounds and light-mode surfaces from student and administrator screens.
+- [x] Verify the rendered white/neutral Light Mode and revalidate the Android bundle.

@@ -51,11 +51,11 @@ export default function DatesScreen() {
 }
 
 const styles = StyleSheet.create({
-  list: { backgroundColor: "#F7F8FC", padding: 18, paddingBottom: 38 },
+  list: { backgroundColor: "#FFFFFF", padding: 18, paddingBottom: 38 },
   title: { color: "#10213F", fontSize: 28, fontWeight: "800", letterSpacing: -0.8, marginTop: 4 },
   subtitle: { color: "#6D7A94", fontSize: 12, marginTop: 5 },
   monthNavigation: { alignItems: "center", flexDirection: "row", justifyContent: "space-between", marginTop: 18 },
-  monthButton: { alignItems: "center", backgroundColor: "#E8EDFF", borderRadius: 11, height: 38, justifyContent: "center", width: 38 },
+  monthButton: { alignItems: "center", backgroundColor: "#F3F4F6", borderRadius: 11, height: 38, justifyContent: "center", width: 38 },
   disabled: { opacity: 0.35 },
   monthTitle: { color: "#10213F", fontSize: 17, fontWeight: "800" },
   calendarCard: { backgroundColor: "#FFFFFF", borderColor: "#E3E8F3", borderRadius: 19, borderWidth: 1, marginTop: 12, padding: 11 },
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   selectedHolidayDot: { backgroundColor: "#FFFFFF" },
   outOfRange: { opacity: 0.25 },
   outOfRangeText: { color: "#9CA7B9" },
-  selectedCard: { alignItems: "flex-start", backgroundColor: "#E8EDFF", borderRadius: 17, flexDirection: "row", gap: 10, marginTop: 13, padding: 13 },
+  selectedCard: { alignItems: "flex-start", backgroundColor: "#F9FAFB", borderRadius: 17, flexDirection: "row", gap: 10, marginTop: 13, padding: 13 },
   selectedHolidayCard: { backgroundColor: "#FFF3E0" },
   selectedIcon: { alignItems: "center", backgroundColor: "#FFFFFF", borderRadius: 12, height: 40, justifyContent: "center", width: 40 },
   selectedBody: { flex: 1 },

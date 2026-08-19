@@ -35,10 +35,10 @@ export default function AttendanceScreen() {
 }
 
 const styles = StyleSheet.create({
-  list: { backgroundColor: "#F7F8FC", padding: 18, paddingBottom: 38 },
+  list: { backgroundColor: "#FFFFFF", padding: 18, paddingBottom: 38 },
   title: { color: "#10213F", fontSize: 28, fontWeight: "800", letterSpacing: -0.8, marginTop: 4 },
   subtitle: { color: "#6D7A94", fontSize: 13, lineHeight: 19, marginTop: 5 },
-  formulaCard: { alignItems: "center", backgroundColor: "#E8EDFF", borderRadius: 16, flexDirection: "row", gap: 10, marginTop: 19, padding: 13 },
+  formulaCard: { alignItems: "center", backgroundColor: "#F9FAFB", borderRadius: 16, flexDirection: "row", gap: 10, marginTop: 19, padding: 13 },
   formulaText: { color: "#2446A8", flex: 1, fontSize: 12, fontWeight: "600", lineHeight: 17 },
   listTitle: { color: "#10213F", fontSize: 18, fontWeight: "800", marginBottom: 11, marginTop: 22 },
   card: { backgroundColor: "#FFFFFF", borderColor: "#E3E8F3", borderRadius: 21, borderWidth: 1, marginBottom: 11, overflow: "hidden", padding: 16 },
