@@ -32,7 +32,7 @@ const env = {
   appSlug: "attendwise-itb",
   // S3 URL of the app logo - set this to the URL returned by generate_image when creating custom logo
   // Leave empty to use the default icon from assets/images/icon.png
-  logoUrl: "",
+  logoUrl: "/manus-storage/attendwise-itb-icon_2a339d91.png",
   scheme: schemeFromBundleId,
   iosBundleId: bundleId,
   androidPackage: bundleId,
@@ -86,6 +86,13 @@ const config: ExpoConfig = {
   },
   plugins: [
     "expo-router",
+    [
+      "expo-notifications",
+      {
+        "color": "#2446A8",
+        "defaultChannel": "lectures"
+      }
+    ],
     [
       "expo-audio",
       {
