@@ -30,3 +30,5 @@
 - [x] Replace the appearance switch with explicit separate Light Mode and Dark Mode selections.
 - [x] Reset the previous stored dark preference so Light Mode opens by default after the update.
 - [x] Validate and checkpoint the explicit appearance-choice behavior.
+- [x] Run a final full-system audit covering code, dependencies, tests, linting, and Android export.
+- [x] Fix and revalidate any defects discovered by the final system audit.
