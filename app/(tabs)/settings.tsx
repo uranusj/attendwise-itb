@@ -1,5 +1,5 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { Alert, Pressable, ScrollView, StyleSheet, Switch, Text, View } from "react-native";
+import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useState } from "react";
 import { router } from "expo-router";
 
@@ -39,7 +39,7 @@ export default function SettingsScreen() {
       <ScrollView contentContainerStyle={[styles.container, { backgroundColor: colors.background }]}>
         <Text style={styles.title}>Settings</Text><Text style={styles.subtitle}>Your ITB timetable and reminder preferences.</Text>
         <Text style={styles.heading}>Appearance</Text>
-        <View style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border }]}><View style={styles.settingRow}><View style={[styles.settingIcon, { backgroundColor: colorScheme === "dark" ? "#25375E" : "#E8EDFF" }]}><MaterialIcons name={colorScheme === "dark" ? "dark-mode" : "light-mode"} size={20} color={colors.primary} /></View><View style={styles.settingBody}><Text style={[styles.settingTitle, { color: colors.foreground }]}>Dark mode</Text><Text style={[styles.cardDetail, { color: colors.muted }]}>Optional. Turn this off any time to return to the light theme.</Text></View><Switch value={colorScheme === "dark"} onValueChange={(enabled) => setColorScheme(enabled ? "dark" : "light")} trackColor={{ false: "#CBD4E4", true: "#5575D1" }} thumbColor={colorScheme === "dark" ? "#FFFFFF" : "#F7F8FC"} /></View></View>
+        <View style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border }]}><View style={styles.settingRow}><View style={[styles.settingIcon, { backgroundColor: colorScheme === "dark" ? "#25375E" : "#E8EDFF" }]}><MaterialIcons name="palette" size={20} color={colors.primary} /></View><View style={styles.settingBody}><Text style={[styles.settingTitle, { color: colors.foreground }]}>Appearance</Text><Text style={[styles.cardDetail, { color: colors.muted }]}>Choose one mode. Light Mode is the default for this device.</Text></View></View><View style={styles.appearanceChoices}><Pressable onPress={() => setColorScheme("light")} style={({ pressed }) => [styles.appearanceChoice, colorScheme === "light" && styles.appearanceChoiceSelected, pressed && styles.pressed]}><MaterialIcons name="light-mode" size={18} color={colorScheme === "light" ? "#2446A8" : "#72809A"} /><Text style={[styles.appearanceChoiceText, colorScheme === "light" && styles.appearanceChoiceTextSelected]}>Light Mode</Text>{colorScheme === "light" ? <MaterialIcons name="check-circle" size={16} color="#2446A8" /> : null}</Pressable><Pressable onPress={() => setColorScheme("dark")} style={({ pressed }) => [styles.appearanceChoice, colorScheme === "dark" && styles.appearanceChoiceSelected, pressed && styles.pressed]}><MaterialIcons name="dark-mode" size={18} color={colorScheme === "dark" ? "#2446A8" : "#72809A"} /><Text style={[styles.appearanceChoiceText, colorScheme === "dark" && styles.appearanceChoiceTextSelected]}>Dark Mode</Text>{colorScheme === "dark" ? <MaterialIcons name="check-circle" size={16} color="#2446A8" /> : null}</Pressable></View></View>
         <Text style={styles.heading}>Student profile</Text>
         <View style={styles.profileCard}><View style={styles.profileInitial}><Text style={styles.profileInitialText}>{settings.name.slice(0, 1).toUpperCase()}</Text></View><View style={styles.profileBody}><Text style={styles.profileName}>{settings.name}</Text><Text style={styles.profileMeta}>GNDEC · ITB — {settings.subsection}</Text></View><MaterialIcons name="verified-user" size={21} color="#2446A8" /></View>
         <Text style={styles.heading}>Subsection</Text>
@@ -83,6 +83,11 @@ const styles = StyleSheet.create({
   reminderChoiceSelected: { backgroundColor: "#2446A8", borderColor: "#2446A8" },
   reminderText: { color: "#72809A", fontSize: 11, fontWeight: "800" },
   reminderTextSelected: { color: "#FFFFFF" },
+  appearanceChoices: { flexDirection: "row", gap: 9, marginTop: 15 },
+  appearanceChoice: { alignItems: "center", backgroundColor: "#F7F8FC", borderColor: "#E3E8F3", borderRadius: 11, borderWidth: 1, flex: 1, flexDirection: "row", gap: 6, justifyContent: "center", paddingVertical: 11 },
+  appearanceChoiceSelected: { backgroundColor: "#E8EDFF", borderColor: "#2446A8" },
+  appearanceChoiceText: { color: "#72809A", fontSize: 11, fontWeight: "800" },
+  appearanceChoiceTextSelected: { color: "#2446A8" },
   scheduleButton: { alignItems: "center", backgroundColor: "#2446A8", borderRadius: 11, flexDirection: "row", gap: 7, justifyContent: "center", marginTop: 14, paddingVertical: 11 },
   scheduleButtonText: { color: "#FFFFFF", fontSize: 12, fontWeight: "800" },
   reminderStatus: { color: "#2446A8", fontSize: 11, fontWeight: "700", marginTop: 10, textAlign: "center" },

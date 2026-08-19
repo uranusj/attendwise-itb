@@ -5,7 +5,8 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 
 import { SchemeColors, type ColorScheme } from "@/constants/theme";
 
-const THEME_STORAGE_KEY = "attendwise-itb-theme-preference-v1";
+// Versioned to deliberately ignore the former forced-dark preference and restore Light Mode by default.
+const THEME_STORAGE_KEY = "attendwise-itb-theme-preference-v2";
 
 type ThemeContextValue = {
   colorScheme: ColorScheme;

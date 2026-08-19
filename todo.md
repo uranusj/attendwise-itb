@@ -27,3 +27,6 @@
 - [x] Restore optional theme preference behavior so students can choose light mode or dark mode without a forced permanent setting.
 - [x] Restore all bottom navigation icons for Home, Timetable, Dates, Attendance, and Settings.
 - [x] Run complete publish-readiness diagnostics and resolve any build, type, lint, or test errors.
+- [x] Replace the appearance switch with explicit separate Light Mode and Dark Mode selections.
+- [x] Reset the previous stored dark preference so Light Mode opens by default after the update.
+- [x] Validate and checkpoint the explicit appearance-choice behavior.
