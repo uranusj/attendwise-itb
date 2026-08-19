@@ -8,6 +8,7 @@ import { useAttendWise } from "@/lib/attendwise-store";
 import type { Lecture, Subsection } from "@/lib/attendwise-types";
 import { TIMETABLE_EFFECTIVE_FROM } from "@/lib/sample-timetable";
 import { ScreenContainer } from "@/components/screen-container";
+import { useColors } from "@/hooks/use-colors";
 
 const dayForDate = (date: Date) => date.toLocaleDateString("en-US", { weekday: "long" });
 
@@ -40,9 +41,9 @@ function SetupScreen() {
   );
 }
 
-function LectureCard({ lecture }: { lecture: Lecture }) {
-  const { statuses, markLecture } = useAttendWise();
-  const status = statuses[lecture.id] ?? "NOT_MARKED";
+function LectureCard({ lecture, dateKey }: { lecture: Lecture; dateKey: string }) {
+  const { getLectureStatus, markLecture } = useAttendWise();
+  const status = getLectureStatus(lecture, dateKey);
   return (
     <View style={styles.lectureCard}>
       <View style={styles.lectureTime}><Text style={styles.timeStart}>{lecture.startTime}</Text><Text style={styles.timeEnd}>{lecture.endTime}</Text></View>
@@ -51,8 +52,8 @@ function LectureCard({ lecture }: { lecture: Lecture }) {
         <Text style={styles.lectureMeta}>{lecture.classroom}  ·  {lecture.lectureType}</Text>
         <View style={styles.lectureFooter}><GroupChip group={lecture.group} />{status !== "NOT_MARKED" ? <Text style={[styles.recordedText, status === "PRESENT" ? styles.presentInk : styles.absentInk]}>{status === "PRESENT" ? "Present" : "Absent"}</Text> : null}</View>
         <View style={styles.attendanceButtons}>
-          <Pressable onPress={() => markLecture(lecture, "PRESENT")} style={({ pressed }) => [styles.presentButton, status === "PRESENT" && styles.presentButtonChosen, pressed && styles.pressed]}><MaterialIcons name="check" size={17} color={status === "PRESENT" ? "#FFFFFF" : "#18754E"} /><Text style={[styles.presentButtonText, status === "PRESENT" && styles.chosenButtonText]}>Present</Text></Pressable>
-          <Pressable onPress={() => markLecture(lecture, "ABSENT")} style={({ pressed }) => [styles.absentButton, status === "ABSENT" && styles.absentButtonChosen, pressed && styles.pressed]}><MaterialIcons name="close" size={17} color={status === "ABSENT" ? "#FFFFFF" : "#A5293A"} /><Text style={[styles.absentButtonText, status === "ABSENT" && styles.chosenButtonText]}>Absent</Text></Pressable>
+          <Pressable onPress={() => markLecture(lecture, "PRESENT", dateKey)} style={({ pressed }) => [styles.presentButton, status === "PRESENT" && styles.presentButtonChosen, pressed && styles.pressed]}><MaterialIcons name="check" size={17} color={status === "PRESENT" ? "#FFFFFF" : "#18754E"} /><Text style={[styles.presentButtonText, status === "PRESENT" && styles.chosenButtonText]}>Present</Text></Pressable>
+          <Pressable onPress={() => markLecture(lecture, "ABSENT", dateKey)} style={({ pressed }) => [styles.absentButton, status === "ABSENT" && styles.absentButtonChosen, pressed && styles.pressed]}><MaterialIcons name="close" size={17} color={status === "ABSENT" ? "#FFFFFF" : "#A5293A"} /><Text style={[styles.absentButtonText, status === "ABSENT" && styles.chosenButtonText]}>Absent</Text></Pressable>
         </View>
       </View>
     </View>
@@ -61,7 +62,9 @@ function LectureCard({ lecture }: { lecture: Lecture }) {
 
 export default function HomeScreen() {
   const { loading, settings, subjects, visibleLectures } = useAttendWise();
+  const colors = useColors();
   const today = dayForDate(new Date());
+  const todayKey = new Date().toISOString().slice(0, 10);
   const todayLectures = visibleLectures(today);
   const overall = useMemo(() => {
     const present = subjects.reduce((sum, subject) => sum + subject.present, 0);
@@ -80,14 +83,14 @@ export default function HomeScreen() {
       <FlatList
         data={todayLectures}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.listContent}
+        contentContainerStyle={[styles.listContent, { backgroundColor: colors.background }]}
         ListHeaderComponent={<>
           <View style={styles.heroRow}><View><Text style={styles.greeting}>Good morning, {settings.name}</Text><Text style={styles.cohort}>GNDEC  ·  ITB — {settings.subsection}</Text></View><View style={styles.avatar}><Text style={styles.avatarText}>{settings.name.slice(0, 1).toUpperCase()}</Text></View></View>
           <View style={styles.attendanceHero}><View><Text style={styles.overallLabel}>OVERALL ATTENDANCE</Text><Text style={styles.overallValue}>{hasAttendanceRecords ? <>{overall.toFixed(1)}<Text style={styles.percentMark}>%</Text></> : "—"}</Text><Text style={styles.targetText}>{hasAttendanceRecords ? "Target: 75%" : "Mark real attendance to begin"}</Text></View><View style={styles.safePill}><MaterialIcons name={hasAttendanceRecords ? (overall >= 75 ? "verified" : "warning-amber") : "pending-actions"} size={16} color={hasAttendanceRecords ? (overall >= 75 ? "#18754E" : "#A65D00") : "#6D7A94"} /><Text style={[styles.safePillText, { color: hasAttendanceRecords ? (overall >= 75 ? "#18754E" : "#A65D00") : "#6D7A94" }]}>{hasAttendanceRecords ? (overall >= 75 ? "On track" : "Needs focus") : "No records"}</Text></View></View>
           {nextLecture ? <View style={styles.nextCard}><View style={styles.nextIcon}><MaterialIcons name="schedule" color="#2446A8" size={23} /></View><View style={styles.nextBody}><Text style={styles.nextLabel}>NEXT LECTURE</Text><Text style={styles.nextTitle}>{nextLecture.subject}</Text><Text style={styles.nextDetail}>{nextLecture.startTime}–{nextLecture.endTime}  ·  {nextLecture.classroom}</Text></View><GroupChip group={nextLecture.group} /></View> : null}
           <SectionHeading title={`Today · ${today}`} />
         </>}
-        renderItem={({ item }) => <LectureCard lecture={item} />}
+        renderItem={({ item }) => <LectureCard lecture={item} dateKey={todayKey} />}
         ListEmptyComponent={<EmptyState icon="event-available" title="No scheduled lectures" detail="Your filtered ITB timetable has no lecture today. Review the week in Timetable." />}
         ListFooterComponent={<View style={styles.attentionWrap}><SectionHeading title={hasAttendanceRecords ? "Attention required" : "Attendance status"} />{hasAttendanceRecords ? <View style={styles.attentionCard}><View style={styles.attentionIcon}><MaterialIcons name="trending-up" size={20} color="#A5293A" /></View><View style={styles.attentionBody}><Text style={styles.attentionTitle}>{attention.subject}</Text><Text style={styles.attentionDetail}>{recommendationFor(attention).detail}</Text></View><Text style={styles.attentionPercent}>{attendancePercentage(attention).toFixed(1)}%</Text></View> : <View style={styles.attentionCard}><View style={styles.attentionIcon}><MaterialIcons name="fact-check" size={20} color="#2446A8" /></View><View style={styles.attentionBody}><Text style={styles.attentionTitle}>No attendance history yet</Text><Text style={styles.attentionDetail}>Classes are scheduled from 10 August. Record actual Present or Absent outcomes to start your calculation.</Text></View></View>}<Text style={styles.sampleNotice}>Verified GNDEC ITB timetable · effective {TIMETABLE_EFFECTIVE_FROM}</Text></View>}
       />

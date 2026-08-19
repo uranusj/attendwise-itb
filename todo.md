@@ -19,3 +19,8 @@
 - [x] Add clear source, validation, and publication status to prevent unverified timetable data from appearing as official.
 - [x] Keep every student’s name, subsection, attendance history, and reminders isolated to their own device without combining records.
 - [x] Test and checkpoint the corrected timetable and administrator workflows.
+- [x] Add a persistent user-controlled dark mode across the student and administrator interface.
+- [x] Add a date-based personal attendance calendar covering 12 August to 31 December 2026.
+- [x] Clearly label every Saturday and Sunday in the date calendar as a holiday.
+- [x] Show the selected student’s scheduled lectures and attendance status for each eligible date.
+- [x] Validate and checkpoint the dark mode and date-calendar enhancements.

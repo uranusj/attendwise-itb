@@ -7,6 +7,7 @@ import { GroupChip } from "@/components/attendwise-ui";
 import { ScreenContainer } from "@/components/screen-container";
 import { useAttendWise } from "@/lib/attendwise-store";
 import type { Lecture, LectureGroup } from "@/lib/attendwise-types";
+import { useColors } from "@/hooks/use-colors";
 
 type DraftForm = Omit<Lecture, "id" | "subjectId" | "subjectCode">;
 
@@ -21,6 +22,7 @@ function formFromLecture(lecture: Lecture): DraftForm {
 
 export default function AdminScreen() {
   const { draftLectures, lastImport, publishedAt, updateDraftLecture, addDraftLecture, deleteDraftLecture, recordTimetableImport, publishDraft, discardDraft } = useAttendWise();
+  const colors = useColors();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<DraftForm>(emptyForm);
   const [status, setStatus] = useState("");
@@ -89,7 +91,7 @@ export default function AdminScreen() {
       <FlatList
         data={currentDraftLectures}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.list}
+        contentContainerStyle={[styles.list, { backgroundColor: colors.background }]}
         ListHeaderComponent={<>
           <View style={styles.titleRow}><View><Text style={styles.title}>Timetable admin</Text><Text style={styles.subtitle}>Review a local draft before it replaces this device’s student timetable.</Text></View><View style={styles.adminMark}><MaterialIcons name="admin-panel-settings" color="#FFFFFF" size={22} /></View></View>
           <View style={styles.warning}><MaterialIcons name="devices" color="#2446A8" size={19} /><Text style={styles.warningText}>This is a device-local workspace. It does not publish to other students’ phones or merge personal attendance.</Text></View>

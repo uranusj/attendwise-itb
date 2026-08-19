@@ -4,8 +4,8 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { INITIAL_SUBJECT_ATTENDANCE, SAMPLE_LECTURES } from "@/lib/sample-timetable";
 import type { AttendanceStatus, Lecture, StudentSettings, SubjectAttendance, Subsection, TimetableImport } from "@/lib/attendwise-types";
 
-const STORAGE_KEY = "attendwise-itb-official-v3";
-const LEGACY_STORAGE_KEYS = ["attendwise-itb-official-v2", "attendwise-itb-local-v1"];
+const STORAGE_KEY = "attendwise-itb-official-v4";
+const LEGACY_STORAGE_KEYS = ["attendwise-itb-official-v3", "attendwise-itb-official-v2", "attendwise-itb-local-v1"];
 
 type PersistedState = {
   settings: StudentSettings;
@@ -23,7 +23,8 @@ type AttendWiseContextValue = PersistedState & {
   completeSetup: (name: string, subsection: Subsection) => void;
   updateSubsection: (subsection: Subsection) => void;
   updateReminderMinutes: (minutes: StudentSettings["reminderMinutes"]) => void;
-  markLecture: (lecture: Lecture, status: AttendanceStatus) => void;
+  markLecture: (lecture: Lecture, status: AttendanceStatus, dateKey?: string) => void;
+  getLectureStatus: (lecture: Lecture, dateKey?: string) => AttendanceStatus;
   updateDraftLecture: (id: string, update: Partial<Lecture>) => void;
   addDraftLecture: (lecture: Lecture) => void;
   deleteDraftLecture: (id: string) => void;
@@ -115,8 +116,14 @@ export function AttendWiseProvider({ children }: { children: ReactNode }) {
     setSettings((current) => ({ ...current, reminderMinutes }));
   }, []);
 
-  const markLecture = useCallback((lecture: Lecture, status: AttendanceStatus) => {
-    const priorStatus = statuses[lecture.id] ?? "NOT_MARKED";
+  const getLectureStatus = useCallback((lecture: Lecture, dateKey?: string) => {
+    const key = dateKey ? `${dateKey}:${lecture.id}` : lecture.id;
+    return statuses[key] ?? "NOT_MARKED";
+  }, [statuses]);
+
+  const markLecture = useCallback((lecture: Lecture, status: AttendanceStatus, dateKey?: string) => {
+    const key = dateKey ? `${dateKey}:${lecture.id}` : lecture.id;
+    const priorStatus = statuses[key] ?? "NOT_MARKED";
     if (priorStatus === status) return;
     setSubjects((current) => current.map((subject) => {
       if (subject.subjectId !== lecture.subjectId) return subject;
@@ -127,7 +134,7 @@ export function AttendWiseProvider({ children }: { children: ReactNode }) {
       if (status === "ABSENT") next.absent += 1;
       return next;
     }));
-    setStatuses((current) => ({ ...current, [lecture.id]: status }));
+    setStatuses((current) => ({ ...current, [key]: status }));
   }, [statuses]);
 
   const updateDraftLecture = useCallback((id: string, update: Partial<Lecture>) => {
@@ -164,9 +171,9 @@ export function AttendWiseProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo(() => ({
     settings, subjects, statuses, publishedLectures, draftLectures, lastImport, publishedAt, loading,
-    visibleLectures, completeSetup, updateSubsection, updateReminderMinutes, markLecture,
+    visibleLectures, completeSetup, updateSubsection, updateReminderMinutes, markLecture, getLectureStatus,
     updateDraftLecture, addDraftLecture, deleteDraftLecture, recordTimetableImport, publishDraft, discardDraft, resetSetup,
-  }), [settings, subjects, statuses, publishedLectures, draftLectures, lastImport, publishedAt, loading, visibleLectures, completeSetup, updateSubsection, updateReminderMinutes, markLecture, updateDraftLecture, addDraftLecture, deleteDraftLecture, recordTimetableImport, publishDraft, discardDraft, resetSetup]);
+  }), [settings, subjects, statuses, publishedLectures, draftLectures, lastImport, publishedAt, loading, visibleLectures, completeSetup, updateSubsection, updateReminderMinutes, markLecture, getLectureStatus, updateDraftLecture, addDraftLecture, deleteDraftLecture, recordTimetableImport, publishDraft, discardDraft, resetSetup]);
 
   return <AttendWiseContext.Provider value={value}>{children}</AttendWiseContext.Provider>;
 }

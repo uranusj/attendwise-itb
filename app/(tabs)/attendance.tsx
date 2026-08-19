@@ -6,6 +6,7 @@ import { ScreenContainer } from "@/components/screen-container";
 import { attendancePercentage, markedTotal, recommendationFor } from "@/lib/attendance-calculations";
 import { useAttendWise } from "@/lib/attendwise-store";
 import type { SubjectAttendance } from "@/lib/attendwise-types";
+import { useColors } from "@/hooks/use-colors";
 
 function SubjectCard({ subject }: { subject: SubjectAttendance }) {
   const percentage = attendancePercentage(subject);
@@ -24,10 +25,11 @@ function SubjectCard({ subject }: { subject: SubjectAttendance }) {
 
 export default function AttendanceScreen() {
   const { subjects } = useAttendWise();
+  const colors = useColors();
   const sorted = [...subjects].sort((a, b) => attendancePercentage(a) - attendancePercentage(b));
   return (
     <ScreenContainer>
-      <FlatList data={sorted} keyExtractor={(item) => item.subjectId} contentContainerStyle={styles.list} ListHeaderComponent={<><Text style={styles.title}>Attendance</Text><Text style={styles.subtitle}>Per-subject calculations based on your marked lecture occurrences.</Text><View style={styles.formulaCard}><MaterialIcons name="calculate" size={22} color="#2446A8" /><Text style={styles.formulaText}>Recommendations use the exact 75% formula — never a generic “safe” threshold.</Text></View><Text style={styles.listTitle}>Subject insights</Text></>} renderItem={({ item }) => <SubjectCard subject={item} />} ListFooterComponent={<Text style={styles.footnote}>Counts start with labelled sample records and change locally when you mark a session. An authorised official attendance connection is not configured.</Text>} />
+      <FlatList data={sorted} keyExtractor={(item) => item.subjectId} contentContainerStyle={[styles.list, { backgroundColor: colors.background }]} ListHeaderComponent={<><Text style={styles.title}>Attendance</Text><Text style={styles.subtitle}>Per-subject calculations based on your marked lecture occurrences.</Text><View style={styles.formulaCard}><MaterialIcons name="calculate" size={22} color="#2446A8" /><Text style={styles.formulaText}>Recommendations use the exact 75% formula — never a generic “safe” threshold.</Text></View><Text style={styles.listTitle}>Subject insights</Text></>} renderItem={({ item }) => <SubjectCard subject={item} />} ListFooterComponent={<Text style={styles.footnote}>Attendance remains personal to this device and profile.</Text>} />
     </ScreenContainer>
   );
 }

@@ -1,17 +1,21 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, Pressable, ScrollView, StyleSheet, Switch, Text, View } from "react-native";
 import { useState } from "react";
 import { router } from "expo-router";
 
 import { ScreenContainer } from "@/components/screen-container";
 import { useAttendWise } from "@/lib/attendwise-store";
 import { scheduleLectureReminders } from "@/lib/lecture-reminders";
+import { useThemeContext } from "@/lib/theme-provider";
+import { useColors } from "@/hooks/use-colors";
 import type { StudentSettings, Subsection } from "@/lib/attendwise-types";
 
 const SOURCE_URL = "appsc.gndec.ac.in … /09_08_2026 FINAL_FILE R4";
 
 export default function SettingsScreen() {
   const { settings, updateSubsection, updateReminderMinutes, visibleLectures, resetSetup } = useAttendWise();
+  const { colorScheme, setColorScheme } = useThemeContext();
+  const colors = useColors();
   const [showImportPreview, setShowImportPreview] = useState(false);
   const [reminderStatus, setReminderStatus] = useState("Not scheduled yet");
   const reminderChoices: StudentSettings["reminderMinutes"][] = [5, 10, 15, 30];
@@ -32,8 +36,10 @@ export default function SettingsScreen() {
   };
   return (
     <ScreenContainer>
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView contentContainerStyle={[styles.container, { backgroundColor: colors.background }]}>
         <Text style={styles.title}>Settings</Text><Text style={styles.subtitle}>Your ITB timetable and reminder preferences.</Text>
+        <Text style={styles.heading}>Appearance</Text>
+        <View style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border }]}><View style={styles.settingRow}><View style={[styles.settingIcon, { backgroundColor: colorScheme === "dark" ? "#25375E" : "#E8EDFF" }]}><MaterialIcons name={colorScheme === "dark" ? "dark-mode" : "light-mode"} size={20} color={colors.primary} /></View><View style={styles.settingBody}><Text style={[styles.settingTitle, { color: colors.foreground }]}>Dark mode</Text><Text style={[styles.cardDetail, { color: colors.muted }]}>Use the dark academic theme across the app. This choice stays on this phone.</Text></View><Switch value={colorScheme === "dark"} onValueChange={(enabled) => setColorScheme(enabled ? "dark" : "light")} trackColor={{ false: "#CBD4E4", true: "#5575D1" }} thumbColor={colorScheme === "dark" ? "#FFFFFF" : "#F7F8FC"} /></View></View>
         <Text style={styles.heading}>Student profile</Text>
         <View style={styles.profileCard}><View style={styles.profileInitial}><Text style={styles.profileInitialText}>{settings.name.slice(0, 1).toUpperCase()}</Text></View><View style={styles.profileBody}><Text style={styles.profileName}>{settings.name}</Text><Text style={styles.profileMeta}>GNDEC · ITB — {settings.subsection}</Text></View><MaterialIcons name="verified-user" size={21} color="#2446A8" /></View>
         <Text style={styles.heading}>Subsection</Text>
