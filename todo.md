@@ -24,3 +24,6 @@
 - [x] Clearly label every Saturday and Sunday in the date calendar as a holiday.
 - [x] Show the selected student’s scheduled lectures and attendance status for each eligible date.
 - [x] Validate and checkpoint the dark mode and date-calendar enhancements.
+- [x] Restore optional theme preference behavior so students can choose light mode or dark mode without a forced permanent setting.
+- [x] Restore all bottom navigation icons for Home, Timetable, Dates, Attendance, and Settings.
+- [x] Run complete publish-readiness diagnostics and resolve any build, type, lint, or test errors.
