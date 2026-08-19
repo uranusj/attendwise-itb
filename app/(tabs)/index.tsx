@@ -99,7 +99,7 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  loading: { alignItems: "center", backgroundColor: "#F7F8FC", flex: 1, justifyContent: "center" },
+  loading: { alignItems: "center", backgroundColor: "#FFFFFF", flex: 1, justifyContent: "center" },
   listContent: { backgroundColor: "#F7F8FC", padding: 18, paddingBottom: 40 },
   heroRow: { alignItems: "center", flexDirection: "row", justifyContent: "space-between", marginBottom: 18, marginTop: 4 },
   greeting: { color: "#10213F", fontSize: 23, fontWeight: "800", letterSpacing: -0.55 },
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   attentionDetail: { color: "#6D7A94", fontSize: 11, lineHeight: 16, marginTop: 3 },
   attentionPercent: { color: "#A5293A", fontSize: 15, fontWeight: "800" },
   sampleNotice: { color: "#7A879E", fontSize: 11, marginBottom: 8, marginTop: 17, textAlign: "center" },
-  setupScreen: { alignItems: "center", backgroundColor: "#F7F8FC", flex: 1, justifyContent: "center", padding: 24 },
+  setupScreen: { alignItems: "center", backgroundColor: "#FFFFFF", flex: 1, justifyContent: "center", padding: 24 },
   brandMark: { alignItems: "center", backgroundColor: "#2446A8", borderRadius: 20, height: 63, justifyContent: "center", width: 63 },
   setupEyebrow: { color: "#2446A8", fontSize: 10, fontWeight: "800", letterSpacing: 1.3, marginTop: 18 },
   setupTitle: { color: "#10213F", fontSize: 38, fontWeight: "800", letterSpacing: -1.4, lineHeight: 42, marginTop: 7, textAlign: "center" },

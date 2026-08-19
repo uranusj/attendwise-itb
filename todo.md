@@ -32,3 +32,6 @@
 - [x] Validate and checkpoint the explicit appearance-choice behavior.
 - [x] Run a final full-system audit covering code, dependencies, tests, linting, and Android export.
 - [x] Fix and revalidate any defects discovered by the final system audit.
+- [x] Replace the blue-tinted light-mode background with a neutral light palette.
+- [x] Replace the unstable bottom navigation icon component with direct Android-compatible icons.
+- [x] Validate the neutral palette and visible navigation icons in the Android bundle.
